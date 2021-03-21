@@ -1,0 +1,260 @@
+---
+title: |
+  [1]: https://www.facebook.com/An%C3%A1lisis-y-visualizaci%C3%B3n-de-datos-100602148375744
+  [2]: https://raw.githubusercontent.com/DataFeast71/COVID19_plots/main/img/Logo_W.jpeg {width=1in}
+  [![Analisis Y visualizacion][2]][1]
+  Notebook en R
+date: "Última modificación: `r Sys.Date()`"
+output:
+  html_document:
+    code_folding: null
+    df_print: paged
+    highlight: zenburn
+    theme: cerulean
+    toc: false
+    toc_float: false
+editor_options:
+  chunk_output_type: inline
+---
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
+```
+
+<div class='alert alert-info'>
+Se recomienda tener instalado la ultima versión de R junto con R-studio que será el IDE (*integrated development environment*) en el cual trabajaremos y realizaremos los análisis. Primero hay que instalar R y posteriormente R-studio para evitar conflictos. Puedes revisar el siguiente enlace como guía para la instalación: 
+
+* [Instalación de los softwares a utilizar](https://bookdown.org/gboccardo/manual-ED-UCH/instalacion-de-los-softwares-a-utilizar-en-este-manual.html#instalacion-de-r-y-rstudio-en-microsoft-windows)
+
+</div>
+
+## Ambiente en R-studio.
+
+Al abrir *R-studio* podrás observar el área de trabajo que por lo regular esta formado por 4 cuadrantes.
+
+Del lado izquierdo, el panel superior se encontrará el o los scritps que desarrollaras y podrás editar. Mientras que en el panel inferior se encontrara la consola donde verás los resultados del codigo ejecutado y los posibles errores (por que siempre habra errores asi que no te preocupes).
+
+<center>
+![Workspace](https://ourcodingclub.github.io/assets/img/tutorials/intro-to-r/rstudio_panels.png)
+</center>
+
+
+Del lado derecho, en el panel superior se encontrará el *environment* donde podrás ver los objetos que cargas o asignas un nombre R. Te mostrará el contenido del objecto, su tamaño, etc. Aquí también presenta una opción para cargar archivos, como tablas directamente sin embargo yo recomiendo hacer todo escribiendo las instrucciones correspondientes.
+
+Y finalmente el panel inferior donde se mostrará principalmente los *plots* o gráficos que generé el codigo ejecutado pero también contiene otras pestañas importantes. Como *Help* donde puedes buscar la documentación de algun comando o paquetería en particular. En *Files* encontrarás los archivos de tu carpeta de trabajo.
+
+<center>
+![Right](Images/R-studio_rightPanel.png)
+</center>
+
+## Uso de scripts
+
+Para crear un script puedes presionar `CTRL + SHIFT + N` lo cual abrira un nuevo documento en el cual puedes empezar a escribir las instrucciones en R. La otra manera de crear un script o documento es dar click en el primer icono de la barra de navegación y posteriormente seleccionar `R Script`.
+
+<center>
+![R-script](Images/Menu_R.png)
+</center>
+
+En este menu hay diferentes archivos que se pueden crear pero los que más interesan son `R Script` y `R Notebook`.
+
+Una vez que el script se haya creado puedes salvarlo con `Ctrl + S` con el nombre que gustes y en la carpeta que desees. No es necesario guardar el archivo con la terminarción `.R` ya que se hará automaticamente.
+
+Dentro del archivo podemos comenzar a escribir el codigo y ver como en la consola se ejecuta y nos da un *output*. Pero antes de escribir las primeras instrucciones se tiene que hacer la distincion entre el codigo que se ejecutará y lo que no, es decir, los comentarios. Es recomendable tratar de escribir comentarios en tu script ya que te ayudará a recordar que realizaba tal instrucción o por qué se realizó de tal manera. Un comentario se agrega con el simbolo `#` antes de ingresar el texto.
+
+La primera instrucción que podemos escribir es simplemente **imprimir** un texto en la consola. Para realizar esto se ocupara la función `print()` en la cual puedes escribir una cadena de caracteres. Para escribir una cadena de caracteres se deben ingresar entre comillas, simples ('') o dobles ("").
+
+```{r}
+# Comentarios
+print("Esto a una cadena de caracteres")
+```
+
+Cuando escribas el codigo anterior en tu script puedes ahora ejecutarlo y ver el resultado en la consola. Para ejecutarlo solo ubica el cursor de texto en el renglon que tenga el codigo y presiona `Ctrl + Enter`. En tu panel de Consola veras el resultado.
+
+<center>
+![Output](Images/Output.png)
+</center>
+
+En la consola los renglones que empiecen con ">" son el comando que se ingreso y el renglón siguiente es el resultado de `print()`.
+
+Cuando uno trabaja en scripts hay dos comandos que se consideran importantes y tienen que ver con la **ubicación del área de trabajo**. Es decir, donde se encontraran los archivos o se generarán las gráficas o tablas.
+
+El primer comando es `getwd()`. Esta función de R mostrara cual es el directorio del trabajo, es decir, donde estaran los archivos que quieres analizar o donde se crearan nuevos archivos.
+
+En mi caso cuando se escribe esta instrucción me muestra toda la ruta hasta donde se encuentra el script. La ruta se le denomina **ruta absoluta** 
+
+```{r}
+getwd()
+```
+
+Cuando escribas y ejecutes esta instrucción, ¿cuál es la ruta que te aparece? ¿es la misma en donde guardaste tu archivo? Si es la misma entonces no tienes ningún problema para seguir trabajando. Pero en caso de que no, que puede ser lo más probable, enconces tienes que cambiar la ruta de trabajo. Para realizar esto ocupamos la función `setwd()`, en la cual se debe escribir entre comillas la dirección de trabajo. Esto cambia dependiendo del sistema operativo si es Windows, Mac o Linux.
+
+Por ejemplo, si la direcion de trabajo es la que se encuentra en una carpeta que se llama `Curso` se debe escribir toda la dirección a partir del `home`.
+
+```{r, eval=FALSE}
+setwd("/home/carpetas/Curso/")
+```
+
+Si ejecutas el comando anterior entonces se habra actualizado el área de trabajo y si vuelves a ejecutar `getwd()` veras que la dirección habra cambiado.
+
+En un script podemos escribir todas las instrucciones que quieras junto con el comentario y ver el resultad en el output. Dentro de R ya existen unos set de datos los cuales se pueden explorar y ocupar para muchos ejemplos. Uno de ellos se llama `cars` que ya esta cargado automaticamente en R y que podemos explorarlo. Si bien el siguiente código no lo he explicado aun solo es algo que se ocupara para ejemplo y posteriormente será algo muy común que harás.
+
+Los datos de `cars` es una tabla con distintas variables y que puedes realizar un vistazo con el comando `head()`.
+
+```{r, echo = FALSE, eval=FALSE}
+head(cars)
+```
+
+si escribes el codigo anterior en un script y lo ejecutas verás que en tu consola aparece el resultado.
+
+<center>
+![cars-head](Images/Cars_out.png)
+</center>
+
+Este data set contiene dos columnas, **speed** y **dist**. Son variables cuantitativas que pueden graficarse simplemente con el comando `plot`. Ejecutalo y veras como en el panel inferior derecho aparecera el gráfico `dist vs speed`
+
+```{r, echo = FALSE, eval=FALSE}
+plot(cars)
+```
+
+<center>
+![cars-plot](Images/Cars_plot.png)
+</center>
+
+Así es como se estará trabajando con los scripts. Escribes en editor de texto se ejecuta para ver el resultado en la consola o en su caso si genera un gráfico lo puedes ver en su área correspondiente.
+
+Cuando estes trabajando en tu script recuerda salvarlo constantemente presionando `Ctrl + S`.
+
+Por lo regular asi es como ese trabaja en R-studio. Sin embargo, hay otra alternativa que yo considero como una mejor opción para empezar con R y es trabajar con los **notebooks**
+
+## Uso de Notebooks
+
+Un notebook es un archivo que a grandes rasgos combina texto y codigo. Trabajar con un script es lo más directo y sencillo a comparación del Notebook considero que tiene un poco más de ventajas trabajar en el notebook que en el script.
+
+Para que se pueda comparar mejor primero hay que crear un notebook. Para esto da click en crear un nuevo archivo, como si fuera un script.
+
+<center>
+![Notebook](Images/Menu_R.png)
+</center>
+
+Pero en lugar de seleccionar `R script` da click en `R notebook` y te generara un archivo notebook con un templado como el siguiente.
+
+<center>
+![Notebook file](Images/Notebook-1.png)
+</center>
+
+Antes de explicarlo primero hay que guardarlo. Presiona `Ctrl+S` y guarda el archivo con el nombre que gustes y no le agregues alguna terminación, por ejemplo este lo llamaremos `Notebook-1`. Al final en la carpeta donde se guardo tendra el nombre de `Notebook-1.Rmd` esta terminación es para identificar los archivos que son Notebooks.
+
+Una vez realizado lo anterior podemos ver que es lo que contiene este archivo. En general, lo podemos dividir en dos secciones.
+
+La primera es todo lo que se entre los tres guiones `---` a lo cual se le denomina YAML. Por el momento no es importante modificar o agregar algo aquí pero son las caracteristicas que tendra tu documento final, por ejemplo algun estilo, letras especiales, etc. Solamente le cambiaremos el titulo al notebook por el que gustes. En nuestro caso le pondremos "Primer notebook". No olvides que toda cadana de caracteres que tu quieras agregar debe ir entre comillas.
+
+<center>
+![Notebook](Images/Notebook_yaml.png)
+</center>
+
+En un momento se verá donde afecta el cambio del título.
+
+La otra sección va a representar todo el contenido de documento, la combinación entre el texto y el código. En el notebook puedes borrar todo el texto que se encuentra después de los tres guiones `---`, lo hiremos viendo sobre la marcha.
+
+En el notebook puedes escribir todo el texto que se desee lo cual es una gran ventaja ya que es literal, tomar notas algo que en un script puede llegar a ser complicado ya que gran parte serían comentarios lo cual puede llegar complicar un poco el entender el script. Pero en un notebook es diferente. Uno puede estar escribiendo ideas, análisis, interpretaciones. Por ejemplo, este documento se realizo en un notebook. El texto se le conoce como **markdown**  que es un texto plano y que presenta unas reglas especiales que se pueden ir viendo después. Seria como tener un documento de Word pero que al mismo tiempo puedes incluir y ejecutar el codigo.
+
+<center>
+![markdown](Images/Notebook_markdown.png)
+</center>
+
+Pero ahora ¿Comó se escribe el codigo de R? Para distinguir el *Markdown* y el codigo se deben agregar las **celdas** o **Chunks**. 
+
+Para agregar una celda la forma más sencilla es presionar `Ctrl+Alt+I` lo cual te generara un **chunk**.
+
+<center>
+![chunk](Images/Chunk.png)
+</center>
+
+Esta celda esta formada por tres signos \`\`\` y entre llaves se encuentra la letra `r` esto indica que lo que se va a escribir en esta celda se debe interpretar con el lenguaje de R.
+
+A diferencia del script cuando escribimos el comando `getwd()` puede ser que no se tenga la misma dirección de trabajo que donde se guardo originalmente. Pero en un notebook la dirección de trabajo siempre sera sera donde se haya guardado.
+
+En el chunk que se creo podemos escribir el mismo comando dentro del área.
+
+<center>
+![chunk-code](Images/chunk-code.png)
+</center>
+
+Y para ejecutarlo hay dos maneras:
+
+* La primera es dar click en la flecha verde que se encuentra al final de la celda, esquina superior derecha.
+* O la alternativa es colocar el cursor en la celda y presionar `Ctrl + Shift + Enter` (lo recomedable).
+
+Cuando lo ejecutes veras el resultado.
+
+<center>
+![chunk-out](Images/Chunk_output.png)
+</center>
+
+Aqui vemos otra diferencia con el script. El *output* ya no solo aparecera en la consola, ahora también en notebook inmediatamente del **chunk** de donde se ejecuto.
+
+De esta manera, tendras el output siempre a la vista y no solamente en la consola.
+
+Otra cosa que se notará es que la dirección de trabajo es la misma donde se guardo el documento y por lo tanto no se debe cambiar o modificar esta dirección. En realidad, si uno trata de cambiar la dirección de trabajo en el notebook usando `setwd()` ocurrirá un error.  
+
+Replicando el script que se realizo en la sección anterior podemos ver los datos de `cars`. Cabe mecionar que dentro del **chunk** también se puede escribir comentarios.
+
+Genera otro chunks y dentro de el escribe el comando para ver los datos de `cars` y aparecera como en la imagen.
+
+<center>
+![chunks cars](Images/Chunk-2.png)
+</center>
+
+O como se muestra a continuación.
+
+```{r}
+#Datos Cars
+head(cars)
+```
+
+A diferencia del script, el notebook puede detectar si el output es una tabla y por lo tanto mostrarla como tal.
+
+Para finalizar hacemos otro chunk en el cual escribiremos el comando `plot(cars)` y al ejecutarlo se obtendra lo siguiente.
+
+<center>
+![chunk-plot](Images/chunk-plot.png)
+</center>
+
+O directo del notebook.
+
+```{r}
+plot(cars)
+```
+
+Como se puede ver, el gráfico ya no aparecera en el panel derecho `Plots` ya que el notebooks los incluye directamente.
+
+Guarda el notebook presionando `Ctrl + S`. Este archivo generara otro en formato `HTML` el cual puedes ver en el directorio de trabajo o seleccionado `Preview` en la area de navegación.
+
+<center>
+![preview](Images/preview.png)
+</center>
+
+Si das click en `Preview` se abrira una ventana extra donde esta todo el texto, los bloques de codigo y el titulo que modificaste. Se puede considerar como un archivo que no se modifica directamente, solo cuando cambia el archivo `.Rmd` deberá cambiar el `html`.
+
+Por lo regular este archivo es que mostrará todo "unido".
+
+## Instalación de paquetes.
+
+R tiene una gran variedad de paquetes o modulos que se ocupan para realizar análisis especificos. Por ejemplo en la visualización de datos una de las paqueterías más usadas es `ggplot`. Para instalar los paquetes solo se ocupa el comando `install.packages()`. Dentro de la función debes ingresar el nombre del paquete entre comillas.
+
+```{r, eval=FALSE, message=FALSE, warning=FALSE}
+install.packages("paquete")
+```
+
+Una de las paqueterias más ultizadas para analizar datos se llama `tidyverse` que se encuentra en el libro **R for Data Science**.
+
+Instalarlo puede llegar a ser un poco complejo dependiendo del sistema operativo pero trata de instalar `tidyverse` ya que al mismo tiempo instalará varias paqueterias que será usadas. Puede llevar un tiempo que termine la instalación.
+
+Para saber si la paquetería se instalo correctamente solo debes cargarla en R con el comando `library()`. Por ejemplo, si cargamos `tidyverse` debera aparecer el siguiente mensaje.
+
+```{r}
+library(tidyverse)
+```
+
+En caso de que no se logre instalar `tidyverse` trata de instalar solamente `ggplot`.
+
